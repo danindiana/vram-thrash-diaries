@@ -5,7 +5,7 @@
   <img alt="Platform" src="https://img.shields.io/badge/platform-Linux-informational">
   <img alt="Local-first AI" src="https://img.shields.io/badge/local--first-AI-8b5cf6">
   <img alt="Made with Ollama" src="https://img.shields.io/badge/made%20with-Ollama-000000">
-  <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-20%20%C3%97%202%20formats-orange">
+  <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-30%20%C3%97%202%20formats-orange">
   <img alt="Rendered with Graphviz" src="https://img.shields.io/badge/rendered%20with-Graphviz-2e8b57">
   <a href="https://github.com/danindiana/vram-thrash-diaries/commits/master"><img alt="Last commit" src="https://img.shields.io/github/last-commit/danindiana/vram-thrash-diaries"></a>
   <a href="https://github.com/danindiana/vram-thrash-diaries/issues"><img alt="Issues" src="https://img.shields.io/github/issues/danindiana/vram-thrash-diaries"></a>
@@ -127,6 +127,50 @@ exact bugs above.
 <tr>
 <td width="50%"><a href="diagrams/appendix/19-context-window-kv-cache-math.md"><img src="diagrams/appendix/graphviz/png/19-context-window-kv-cache-math.png" width="100%"></a></td>
 <td width="50%"><a href="diagrams/appendix/20-tool-calling-protocol-comparison.md"><img src="diagrams/appendix/graphviz/png/20-tool-calling-protocol-comparison.png" width="100%"></a></td>
+</tr>
+</table>
+
+## Appendix II: still more adjacent topics
+
+A third batch — general local-LLM concepts referenced throughout the repo
+(embeddings, Modelfiles, GGUF, thinking models, multi-GPU strategies,
+prompt caching, ...) that hadn't gotten their own diagram yet.
+
+| # | Diagram | What it shows |
+|---|---|---|
+| 21 | [Embeddings & vector search](diagrams/appendix/21-embeddings-vector-search.md) | How `nomic-embed-text` + Qdrant actually turn text into searchable memory |
+| 22 | [Model lifecycle & keep-alive](diagrams/appendix/22-model-lifecycle-keepalive.md) | The state machine behind every `journalctl` load/evict line in this repo |
+| 23 | [Modelfile anatomy](diagrams/appendix/23-modelfile-anatomy.md) | The 5 directives behind every derived tag this session created |
+| 24 | [GGUF file anatomy](diagrams/appendix/24-gguf-file-anatomy.md) | What `ollama show` is actually reading out of the file on disk |
+| 25 | [Thinking models explained](diagrams/appendix/25-thinking-models-explained.md) | What "-thinking" means, and the hard error one model hit for lacking it |
+| 26 | [Multi-GPU parallelism strategies](diagrams/appendix/26-multi-gpu-parallelism-strategies.md) | Tensor-split (used here) vs. pipeline vs. the stray daemon's accidental data-parallel |
+| 27 | [Observability practices](diagrams/appendix/27-observability-practices.md) | The three log layers that found every bug in this repo |
+| 28 | [Model storage & deduplication](diagrams/appendix/28-model-storage-layout.md) | Why deriving new tags this session cost ~0 extra disk |
+| 29 | [Local vs. cloud decision framework](diagrams/appendix/29-local-vs-cloud-decision.md) | An honest framework for when local *isn't* the right call |
+| 30 | [Prompt/context caching](diagrams/appendix/30-prompt-context-caching.md) | Why every eviction was more costly than the reload time alone suggested |
+
+### Appendix II gallery
+
+<table>
+<tr>
+<td width="50%"><a href="diagrams/appendix/21-embeddings-vector-search.md"><img src="diagrams/appendix/graphviz/png/21-embeddings-vector-search.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/22-model-lifecycle-keepalive.md"><img src="diagrams/appendix/graphviz/png/22-model-lifecycle-keepalive.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/appendix/23-modelfile-anatomy.md"><img src="diagrams/appendix/graphviz/png/23-modelfile-anatomy.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/24-gguf-file-anatomy.md"><img src="diagrams/appendix/graphviz/png/24-gguf-file-anatomy.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/appendix/25-thinking-models-explained.md"><img src="diagrams/appendix/graphviz/png/25-thinking-models-explained.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/26-multi-gpu-parallelism-strategies.md"><img src="diagrams/appendix/graphviz/png/26-multi-gpu-parallelism-strategies.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/appendix/27-observability-practices.md"><img src="diagrams/appendix/graphviz/png/27-observability-practices.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/28-model-storage-layout.md"><img src="diagrams/appendix/graphviz/png/28-model-storage-layout.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/appendix/29-local-vs-cloud-decision.md"><img src="diagrams/appendix/graphviz/png/29-local-vs-cloud-decision.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/30-prompt-context-caching.md"><img src="diagrams/appendix/graphviz/png/30-prompt-context-caching.png" width="100%"></a></td>
 </tr>
 </table>
 

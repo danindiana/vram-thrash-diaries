@@ -1,0 +1,31 @@
+digraph ThinkingModels {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="25 — Reasoning ('Thinking') Models Explained";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  A [label="Prompt sent to a\n'-thinking' model variant", color="#22d3ee"];
+  B [label="Model emits a reasoning trace\nfirst (often in <think>...</think>\nor a separate reasoning_content field)", color="#facc15", fillcolor="#241541"];
+  C [label="Trace consumes real tokens\n+ real generation time\nbefore the 'real' answer starts", color="#f87171"];
+  D [label="Final answer emitted\nafter the trace", color="#34d399"];
+
+  A -> B -> C -> D;
+
+  subgraph cluster_gotcha {
+    label="Gotcha hit this session"; fontcolor="#f87171"; color="#f87171"; style="rounded"; bgcolor="#1e0b16";
+    G1 [label="hermes3:8b-llama3.1-q5_K_M\ndoes NOT support the\n'thinking' request parameter", color="#f87171"];
+    G2 [label="Non-retryable 400 error:\n\"does not support thinking\"", color="#f87171", fillcolor="#2a0f1a"];
+    G1 -> G2;
+  }
+
+  D -> G1 [style=dashed, label="not every model in a\nfamily supports it"];
+}

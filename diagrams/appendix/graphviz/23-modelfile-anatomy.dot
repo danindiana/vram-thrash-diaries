@@ -1,0 +1,32 @@
+digraph ModelfileAnatomy {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="23 — Ollama Modelfile Anatomy";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.4;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16, align=left];
+  edge [color="#a78bfa", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  FROM [label="FROM <blob or tag>\nbase weights (required)", color="#22d3ee"];
+  TEMPLATE [label="TEMPLATE \"...\"\nchat-format string\n(im_start/im_end, roles)", color="#22d3ee"];
+  SYSTEM [label="SYSTEM \"...\"\ndefault system prompt", color="#22d3ee"];
+  PARAMETER [label="PARAMETER num_ctx / num_gpu /\ntemperature / stop / ...\nruntime knobs baked into the tag", color="#facc15", fillcolor="#241541"];
+  LICENSE [label="LICENSE \"...\"\nembedded license text", color="#22d3ee"];
+
+  FROM -> TEMPLATE -> SYSTEM -> PARAMETER -> LICENSE;
+
+  subgraph cluster_used {
+    label="Used this session"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    U1 [label="dler-r1-7b-64k:\nPARAMETER num_ctx 65536\n(fix a context-window bug)", color="#34d399"];
+    U2 [label="mem0-extractor-cpu:\nPARAMETER num_gpu 0\n(force CPU-only placement)", color="#34d399"];
+  }
+
+  PARAMETER -> U1 [style=dashed];
+  PARAMETER -> U2 [style=dashed];
+}

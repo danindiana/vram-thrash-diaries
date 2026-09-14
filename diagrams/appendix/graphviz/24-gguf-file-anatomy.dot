@@ -1,0 +1,31 @@
+digraph GGUFAnatomy {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="24 — GGUF File Format Anatomy";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.4;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  MAGIC [label="Header\nmagic bytes 'GGUF', version,\ntensor count, kv count", color="#22d3ee"];
+  KV [label="Key-Value metadata\narchitecture, context_length,\nembedding_length, block_count,\nlicense, tokenizer, chat_template ...", color="#facc15", fillcolor="#241541"];
+  TINFO [label="Tensor info table\nname, shape, dtype,\noffset per tensor", color="#22d3ee"];
+  TDATA [label="Tensor data\n(the actual weights,\nquantized per-block)", color="#34d399"];
+
+  MAGIC -> KV -> TINFO -> TDATA;
+
+  subgraph cluster_seen {
+    label="Fields seen this session\n(via 'ollama show')"; fontcolor="#a78bfa"; color="#a78bfa"; style="rounded"; bgcolor="#160b2e";
+    S1 [label="qwen3.context_length = 262144\nqwen3.block_count = 36", color="#a78bfa"];
+    S2 [label="general.license = apache-2.0", color="#a78bfa"];
+    S3 [label="tokenizer.chat_template\n(drives TEMPLATE in the Modelfile)", color="#a78bfa"];
+  }
+
+  KV -> S1 [style=dashed]; KV -> S2 [style=dashed]; KV -> S3 [style=dashed];
+}

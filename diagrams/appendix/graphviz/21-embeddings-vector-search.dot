@@ -1,0 +1,30 @@
+digraph Embeddings {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="21 — Embeddings & Vector Search Fundamentals";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  A [label="Text chunk\n(a memory, a fact, a doc)", color="#22d3ee"];
+  B [label="Embedder model\nnomic-embed-text (this stack)", color="#22d3ee"];
+  C [label="Fixed-length vector\n768 dimensions here", color="#facc15", fillcolor="#241541"];
+  D [label="Stored in vector index\n(Qdrant, this stack)", color="#a78bfa"];
+  E [label="Query text → same embedder\n→ query vector", color="#22d3ee"];
+  F [label="Approximate Nearest Neighbor\nsearch (cosine similarity)", color="#34d399"];
+  G [label="Top-K closest vectors\nreturned as 'relevant memories'", color="#34d399", fillcolor="#0f2a1a"];
+
+  A -> B -> C -> D;
+  E -> F;
+  D -> F -> G;
+
+  NOTE [label="Rule: query and stored vectors\nMUST come from the SAME embedder —\nswapping embedding models invalidates\nthe whole existing index", shape=note, color="#f87171", fillcolor="#2a0f1a", fontsize=10];
+  G -> NOTE [style=dashed];
+}

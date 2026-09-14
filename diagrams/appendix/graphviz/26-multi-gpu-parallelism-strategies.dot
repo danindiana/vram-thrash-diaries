@@ -1,0 +1,37 @@
+digraph MultiGpuStrategies {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="26 — Multi-GPU Parallelism Strategies";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.5;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#a78bfa", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  subgraph cluster_tensor {
+    label="Tensor-split (used this stack)"; fontcolor="#22d3ee"; color="#22d3ee"; style="rounded"; bgcolor="#0b1a2a";
+    T1 [label="ONE model, layers divided\nacross GPUs by VRAM fit", color="#22d3ee"];
+    T2 [label="Every forward pass touches\nboth GPUs — PCIe traffic\nper token", color="#22d3ee"];
+    T3 [label="What OLLAMA_SCHED_SPREAD=true\n+ NUM_GPU=2 does here", color="#22d3ee", fillcolor="#0f2a1a"];
+    T1 -> T2 -> T3;
+  }
+
+  subgraph cluster_pipeline {
+    label="Pipeline parallel (not used)"; fontcolor="#f472b6"; color="#f472b6"; style="rounded"; bgcolor="#1e0b16";
+    P1 [label="Model split into stages,\neach stage on one GPU", color="#f472b6"];
+    P2 [label="Requires careful batching to\nkeep both GPUs busy\n(bubble/stall risk otherwise)", color="#f472b6"];
+  }
+  P1 -> P2;
+
+  subgraph cluster_dataparallel {
+    label="Data-parallel / one-model-per-GPU\n(the OLD misconfigured setup)"; fontcolor="#f87171"; color="#f87171"; style="rounded"; bgcolor="#2a0f1a";
+    D1 [label="Different model instances,\none per GPU, independent", color="#f87171"];
+    D2 [label="This session's stray\nollama-gpu1.service accidentally\ndouble-booked GPU1 this way", color="#f87171"];
+  }
+  D1 -> D2;
+}

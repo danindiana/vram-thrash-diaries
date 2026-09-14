@@ -1,0 +1,29 @@
+digraph ModelLifecycle {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="22 — Model Lifecycle & Keep-Alive State Machine";
+  rankdir=LR;
+  pad=0.4;
+  nodesep=0.5;
+  ranksep=0.6;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  UNLOADED [label="Unloaded\n(no VRAM/RAM used)", color="#a78bfa", shape=ellipse];
+  LOADING  [label="Loading\nweights read, layers\nfit-tested and placed", color="#22d3ee"];
+  RESIDENT [label="Resident / idle\ntimer running\n(OLLAMA_KEEP_ALIVE, default 5m)", color="#34d399"];
+  SERVING  [label="Serving a request\ntimer paused", color="#facc15", fillcolor="#241541"];
+  EVICTING [label="Evicting\n('resetting model to\nexpire immediately')", color="#f87171"];
+
+  UNLOADED -> LOADING [label="request arrives"];
+  LOADING -> RESIDENT [label="fit + load complete"];
+  RESIDENT -> SERVING [label="new request"];
+  SERVING -> RESIDENT [label="response done,\ntimer resets"];
+  RESIDENT -> EVICTING [label="timer expires,\nOR cap exceeded\n(another model needs room)"];
+  EVICTING -> UNLOADED;
+  SERVING -> EVICTING [label="cap exceeded\nmid-serve (rare,\nforced eviction)", style=dashed];
+}

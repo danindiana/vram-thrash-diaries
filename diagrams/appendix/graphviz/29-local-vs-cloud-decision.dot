@@ -1,0 +1,34 @@
+digraph LocalVsCloud {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="29 — Local vs. Cloud Inference: Decision Framework";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  Start [label="New task arrives", color="#22d3ee"];
+  Q1 [label="Does data need to\nstay on-box?", shape=diamond, color="#facc15", fillcolor="#241541"];
+  Q2 [label="Is task within local\nmodels' real capability?\n(see appendix 15, 25)", shape=diamond, color="#facc15", fillcolor="#241541"];
+  Q3 [label="Is latency/throughput\nacceptable at current\nCPU/GPU split?", shape=diamond, color="#facc15", fillcolor="#241541"];
+
+  LOCAL [label="Run local\n(this session's whole stack)", color="#34d399", fillcolor="#0f2a1a"];
+  CLOUD [label="Escalate to cloud\n(this session: claude-sonnet-4-6\nused twice per prior insights)", color="#a78bfa"];
+
+  Start -> Q1;
+  Q1 -> Q2 [label="yes, must stay local"];
+  Q1 -> CLOUD [label="no constraint"];
+  Q2 -> Q3 [label="yes"];
+  Q2 -> CLOUD [label="no — needs\nmore capability"];
+  Q3 -> LOCAL [label="yes"];
+  Q3 -> CLOUD [label="too slow —\nfix infra first,\nor escalate this once"];
+
+  NOTE [label="Sunk-cost trap to avoid:\n'we already fixed the GPU thrashing,\nso it must be worth running locally'\nisn't a reason on its own", shape=note, color="#f87171", fillcolor="#2a0f1a", fontsize=10];
+  LOCAL -> NOTE [style=dashed];
+}

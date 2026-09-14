@@ -1,0 +1,40 @@
+digraph ObservabilityPractices {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="27 — Local LLM Observability Practices";
+  rankdir=LR;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.6;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  subgraph cluster_daemon {
+    label="Daemon layer"; fontcolor="#22d3ee"; color="#22d3ee"; style="rounded"; bgcolor="#0b1a2a";
+    D1 [label="journalctl -u ollama\nload/evict/fit events"];
+    D2 [label="ollama ps\nwhat's resident RIGHT NOW"];
+    D3 [label="nvidia-smi\nactual VRAM + utilization"];
+  }
+
+  subgraph cluster_agent {
+    label="Agent layer"; fontcolor="#f472b6"; color="#f472b6"; style="rounded"; bgcolor="#1e0b16";
+    A1 [label="~/.hermes/logs/agent.log\nINFO+, tool calls, turns"];
+    A2 [label="~/.hermes/logs/errors.log\nWARNING+, the ones that matter"];
+    A3 [label="hermes insights\naggregate usage stats"];
+  }
+
+  subgraph cluster_system {
+    label="System layer"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    S1 [label="ss -tlnp\nwhat's actually listening"];
+    S2 [label="systemctl list-units\nwhat's actually running"];
+  }
+
+  OUT [label="The finding that\nmattered most this session\nwas cross-referencing\nD1 timestamps against A1", shape=note, color="#facc15", fillcolor="#241541", fontsize=10];
+
+  D1 -> OUT; A1 -> OUT;
+  S1 -> OUT [style=dashed, label="found the stray\nsecond daemon"];
+}
