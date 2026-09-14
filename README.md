@@ -3,12 +3,16 @@
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <img alt="Platform" src="https://img.shields.io/badge/platform-Linux-informational">
+  <img alt="GPU" src="https://img.shields.io/badge/GPU-RTX%204080%20SUPER%20%2B%20RTX%205070-76b900">
+  <img alt="VRAM" src="https://img.shields.io/badge/VRAM-28GB%20(dual--GPU)-76b900">
   <img alt="Local-first AI" src="https://img.shields.io/badge/local--first-AI-8b5cf6">
   <img alt="Made with Ollama" src="https://img.shields.io/badge/made%20with-Ollama-000000">
-  <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-30%20%C3%97%202%20formats-orange">
+  <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-50%20%C3%97%202%20formats-orange">
   <img alt="Rendered with Graphviz" src="https://img.shields.io/badge/rendered%20with-Graphviz-2e8b57">
   <a href="https://github.com/danindiana/vram-thrash-diaries/commits/master"><img alt="Last commit" src="https://img.shields.io/github/last-commit/danindiana/vram-thrash-diaries"></a>
   <a href="https://github.com/danindiana/vram-thrash-diaries/issues"><img alt="Issues" src="https://img.shields.io/github/issues/danindiana/vram-thrash-diaries"></a>
+  <a href="https://github.com/danindiana/vram-thrash-diaries/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/danindiana/vram-thrash-diaries"></a>
+  <img alt="Repo size" src="https://img.shields.io/github/repo-size/danindiana/vram-thrash-diaries">
   <img alt="Status" src="https://img.shields.io/badge/status-documented-brightgreen">
 </p>
 
@@ -25,6 +29,19 @@ If you run more than one local model behind Ollama — a chat model, an
 embedder, a memory-extraction step, maybe a coding agent — and you've ever
 looked at `nvidia-smi` and thought *"wait, why does the GPU look idle but
 nothing's fast,"* this repo is for you.
+
+## Contents
+
+- [TL;DR](#tldr)
+- [The story, in diagrams](#the-story-in-diagrams)
+- [Appendix: adjacent topics](#appendix-adjacent-topics)
+- [Appendix II: still more adjacent topics](#appendix-ii-still-more-adjacent-topics)
+- [The measured wins](#the-measured-wins)
+- [Catch-22s worth knowing about before you hit them yourself](#catch-22s-worth-knowing-about-before-you-hit-them-yourself)
+- [How to reproduce this diagnosis on your own machine](#how-to-reproduce-this-diagnosis-on-your-own-machine)
+- [What's in this repo](#whats-in-this-repo)
+- [`hermes-goal-judge/`: a separate Hermes debugging thread](#hermes-goal-judge-a-separate-hermes-debugging-thread)
+- [What's still open](#whats-still-open)
 
 ## TL;DR
 
@@ -230,6 +247,22 @@ nvidia-smi -L                                                 # what GPUs actual
   you only read leaderboards.
 - [`diagrams/`](diagrams) — the 10 diagrams above, each a standalone
   Markdown file with a Mermaid diagram GitHub renders natively.
+
+## `hermes-goal-judge/`: a separate Hermes debugging thread
+
+A second, self-contained writeup that landed in this repo later — about a different
+part of Hermes Agent (the `/goal` persistent-loop feature), not the VRAM-thrashing
+story above. Kept here rather than a new repo since it's the same box, the same
+agent, and the same dark/neon Graphviz diagram style.
+
+- [`hermes-goal-judge/01-judge-investigation/`](hermes-goal-judge/01-judge-investigation) —
+  why `/goal` makes a separate auxiliary "judge" LLM call after every turn instead of
+  trusting the worker model to grade its own output. `REPORT.md` + 10 diagrams.
+- [`hermes-goal-judge/02-outage-fix/`](hermes-goal-judge/02-outage-fix) — a real
+  `/goal` outage (the judge 404ing every turn against a stale/invalid local model
+  reference), fixed by wiring the judge to the Anthropic API instead; also catches a
+  latent context-window regression on the main chat model found while verifying the
+  fix. `SESSION.md` + 10 diagrams.
 
 ## What's still open
 
