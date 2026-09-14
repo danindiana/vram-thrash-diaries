@@ -1,0 +1,40 @@
+digraph HowTo {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="06 — How To: Diagnose and Fix This on Your Own Box";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  S [label="Symptom: eviction thrashing,\nor 'GPU idle but model not on it'", color="#f87171"];
+  A [label="Check ollama ps repeatedly\nover ~30s", color="#22d3ee"];
+  Bq [label="Same model coming and going?", shape=diamond, color="#facc15", fillcolor="#241541"];
+  C [label="journalctl -u ollama --since '-1h'\ngrep 'loaded runners|make room'", color="#22d3ee"];
+  D [label="Check for a SECOND daemon:\nss -tlnp | grep ollama\nsystemctl list-units | grep -i ollama", color="#22d3ee"];
+  E [label="Count distinct concurrent roles:\nchat + memory/extraction + embedder + ...", color="#22d3ee"];
+  Fq [label="count > MAX_LOADED_MODELS?", shape=diamond, color="#facc15", fillcolor="#241541"];
+  G [label="Raise the cap, or move a role\noff-GPU (num_gpu=0 Modelfile param)", color="#34d399"];
+  H [label="Check MAX_LOADED_MODELS semantics\nin YOUR version's 'serve --help'", color="#34d399"];
+  Iq [label="Found a second daemon\non a different port?", shape=diamond, color="#facc15", fillcolor="#241541"];
+  J [label="Check its CUDA_VISIBLE_DEVICES\nagainst nvidia-smi -L", color="#34d399"];
+  K [label="Check systemd drop-ins for\nconflicting/overlapping .conf", color="#34d399"];
+  V [label="Verify: reload runners together,\nconfirm 0 eviction over a few minutes", color="#facc15", fillcolor="#241541"];
+
+  S -> A -> Bq;
+  Bq -> C [label="yes"];
+  Bq -> D [label="no, nothing loads"];
+  C -> E -> Fq;
+  Fq -> G [label="yes"];
+  Fq -> H [label="no"];
+  D -> Iq;
+  Iq -> J [label="yes"];
+  Iq -> K [label="no"];
+  G -> V; H -> V; J -> V; K -> V;
+}

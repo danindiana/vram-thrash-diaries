@@ -1,5 +1,9 @@
 # 10 — Model-Choice Decision Tree
 
+<img src="graphviz/png/10-model-choice-decision-tree.png" alt="10 — Model-Choice Decision Tree (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/10-model-choice-decision-tree.svg) · [PNG](graphviz/png/10-model-choice-decision-tree.png) · [DOT source](graphviz/10-model-choice-decision-tree.dot)*
+
 The chat model changed several times this session, each for a concrete,
 diagnosable reason — not just preference. This is that chain, and where it
 currently dead-ends (deliberately unresolved).

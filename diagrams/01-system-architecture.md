@@ -1,5 +1,9 @@
 # 01 — System Architecture
 
+<img src="graphviz/png/01-system-architecture.png" alt="01 — System Architecture (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/01-system-architecture.svg) · [PNG](graphviz/png/01-system-architecture.png) · [DOT source](graphviz/01-system-architecture.dot)*
+
 The stack this whole saga lives in: one Ollama daemon serving two GPUs,
 Hermes Agent as the interactive driver, and mem0 riding alongside it for
 persistent memory. Everything shown here talks to the *same* Ollama daemon

@@ -1,0 +1,41 @@
+digraph Timeline {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="02 — What We Did (Timeline)";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.35;
+  ranksep=0.4;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=9, fontcolor="#facc15", penwidth=1.6, arrowsize=0.7];
+
+  n1  [label="Switch model to dler-r1-7b", color="#22d3ee"];
+  n2  [label="Error: 32K context < 64K minimum", color="#f87171"];
+  n3  [label="Build dler-r1-7b-64k\n(num_ctx=65536)", color="#34d399"];
+  n4  [label="\"nemotron seems to elastically\noccupy resources?\"", color="#22d3ee"];
+  n5  [label="journalctl investigation:\n313 evictions / 3h", color="#f87171"];
+  n6  [label="Consolidate systemd drop-ins\ncap=1, reserve 1GiB/GPU", color="#34d399"];
+  n7  [label="\"cut qwen3:4b context\nto fit more in VRAM?\"", color="#22d3ee"];
+  n8  [label="NUM_PARALLEL 2→1 instead", color="#34d399"];
+  n9  [label="45GB→26GB\n48/52%→5/95% CPU/GPU", color="#facc15"];
+  n10 [label="\"nemotron loads on every\nturn, right?\"", color="#22d3ee"];
+  n11 [label="Confirmed: mem0 extraction\nhardcoded to nemotron", color="#f87171"];
+  n12 [label="Build mem0-extractor-cpu\n(num_gpu=0), rewire mem0.json", color="#34d399"];
+  n13 [label="But MAX_LOADED_MODELS=1\nstill evicts it (CPU or not)", color="#f87171"];
+  n14 [label="Raise cap to 3", color="#34d399"];
+  n15 [label="Chat+embedder+extractor\ncoexist, zero eviction", color="#facc15"];
+  n16 [label="Diagnose live\ntool-call errors", color="#22d3ee"];
+  n17 [label="qwen3:4b-thinking malforms\ntool_call bridge, repeatedly", color="#f87171"];
+  n18 [label="Disable tools.tool_search\n(bridge removed)", color="#34d399"];
+  n19 [label="Investigate \"GPU idle,\nmodel not on it\"", color="#22d3ee"];
+  n20 [label="Found stray ollama-gpu1.service\n(6.5h old, wrong GPU)", color="#f87171"];
+  n21 [label="Stop + disable it", color="#34d399"];
+  n22 [label="Install & wire Qwen Code\nto local Ollama", color="#22d3ee"];
+  n23 [label="Confirmed working\nend-to-end", color="#facc15"];
+
+  n1->n2->n3->n4->n5->n6->n7->n8->n9->n10->n11->n12->n13->n14->n15->n16->n17->n18->n19->n20->n21->n22->n23;
+}

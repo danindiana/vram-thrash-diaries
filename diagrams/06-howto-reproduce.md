@@ -1,5 +1,9 @@
 # 06 — How To: Diagnose and Fix This on Your Own Box
 
+<img src="graphviz/png/06-howto-reproduce.png" alt="06 — How To: Diagnose and Fix This on Your Own Box (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/06-howto-reproduce.svg) · [PNG](graphviz/png/06-howto-reproduce.png) · [DOT source](graphviz/06-howto-reproduce.dot)*
+
 A generic checklist, not tied to any specific hostname or model — follow
 this if `ollama ps` looks wrong or a model seems to load-then-vanish.
 

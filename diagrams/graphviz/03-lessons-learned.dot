@@ -1,0 +1,41 @@
+digraph LessonsLearned {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="03 — Lessons Learned";
+  rankdir=LR;
+  pad=0.4;
+  nodesep=0.3;
+  ranksep=0.7;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.15];
+  edge [color="#a78bfa", fontname="Courier New", penwidth=1.4, arrowsize=0.7];
+
+  ROOT [label="Lessons\nLearned", shape=ellipse, color="#facc15", fillcolor="#241541", fontsize=14];
+
+  OBS [label="Observability", color="#22d3ee"];
+  CFG [label="Config hygiene", color="#22d3ee"];
+  CAP [label="Resource caps are\nblunt instruments", color="#22d3ee"];
+  SMALL [label="Small models &\nstructured protocols", color="#22d3ee"];
+  PROC [label="Process hygiene", color="#22d3ee"];
+
+  ROOT -> OBS; ROOT -> CFG; ROOT -> CAP; ROOT -> SMALL; ROOT -> PROC;
+
+  OBS -> OBS1 [color="#34d399"]; OBS1 [label="'ollama ps' only shows\nthe daemon it's talking to", color="#34d399"];
+  OBS -> OBS2 [color="#34d399"]; OBS2 [label="A second daemon on another\nport is invisible until found", color="#34d399"];
+  OBS -> OBS3 [color="#34d399"]; OBS3 [label="journalctl eviction counts\nare the real signal, not vibes", color="#34d399"];
+
+  CFG -> CFG1 [color="#f472b6"]; CFG1 [label="Overlapping drop-ins resolve\nsilently by file sort order", color="#f472b6"];
+  CFG -> CFG2 [color="#f472b6"]; CFG2 [label="A documented env var isn't\nnecessarily a live one", color="#f472b6"];
+
+  CAP -> CAP1 [color="#facc15"]; CAP1 [label="A cap doesn't know CPU-only\ndoesn't need a GPU slot", color="#facc15"];
+  CAP -> CAP2 [color="#facc15"]; CAP2 [label="Fixing one contention can\nstarve something else", color="#facc15"];
+
+  SMALL -> SM1 [color="#f87171"]; SM1 [label="Great benchmarks can still\nfail on YOUR workload shape", color="#f87171"];
+  SMALL -> SM2 [color="#f87171"]; SM2 [label="Sometimes the fix is removing\nthe indirection, not upgrading", color="#f87171"];
+
+  PROC -> PR1 [color="#38bdf8"]; PR1 [label="A daemon can run unnoticed\nfor hours if never queried", color="#38bdf8"];
+  PROC -> PR2 [color="#38bdf8"]; PR2 [label="Verify a hypothesis before\nacting on it (fuser on the FILE)", color="#38bdf8"];
+}

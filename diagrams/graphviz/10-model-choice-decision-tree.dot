@@ -1,0 +1,32 @@
+digraph ModelChoice {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="10 — Model-Choice Decision Tree";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.5;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  Start [label="dler-r1-7b:latest", color="#22d3ee"];
+  Fixed [label="dler-r1-7b-64k\n(derived tag, num_ctx=65536)", color="#34d399"];
+  Q4    [label="qwen3:4b-thinking-2507-q8_0", color="#22d3ee"];
+  BridgeOff [label="tools.tool_search: off\n(bridge removed)", color="#34d399"];
+  Prior [label="hermes3:8b-llama3.1-q5_K_M\n(tried earlier)", color="#f87171"];
+  Open  [label="Open question: what should\nthe REAL daily-driver default be?", shape=diamond, color="#facc15", fillcolor="#241541"];
+  H8 [label="hermes3:8b-llama3.1-q8_0\ntool-format-matched, aging", color="#38bdf8", fillcolor="#0b1a2a"];
+  Ornith [label="ornith-1.5:9b\nstrong benchmarks, unverified locally", color="#38bdf8", fillcolor="#0b1a2a"];
+
+  Start -> Fixed [label="32K context <\n64K minimum"];
+  Fixed -> Q4 [label="session-only switch,\nnot persisted"];
+  Q4 -> BridgeOff [label="malformed tool_call\nbridge repeatedly"];
+  Prior -> Q4 [label="'does not support\nthinking' error"];
+  BridgeOff -> Open;
+  Open -> H8;
+  Open -> Ornith;
+}

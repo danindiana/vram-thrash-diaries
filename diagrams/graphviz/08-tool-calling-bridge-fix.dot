@@ -1,0 +1,38 @@
+digraph ToolBridge {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="08 — Tool-Calling Bridge Fix";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  subgraph cluster_before {
+    label="BEFORE — bridge enabled (tools.tool_search: auto)"; fontcolor="#f87171"; color="#f87171"; style="rounded"; bgcolor="#1e0b16";
+    M1 [label="Model wants to call mem0_search\n(a CORE tool, never deferred)", color="#f87171"];
+    W1 [label="Model wraps it in tool_call anyway", color="#f87171"];
+    ERR1 [label="Error: 'mem0_search' is not\na deferrable tool", color="#f87171", fillcolor="#2a0f1a"];
+    M2 [label="Model wants to batch-call\na deferred tool", color="#f87171"];
+    W2 [label="Sends malformed shape\n(missing 'calls' array)", color="#f87171"];
+    ERR2 [label="Error: tool_call requires 'calls'\n(array of {name, arguments})", color="#f87171", fillcolor="#2a0f1a"];
+    M1 -> W1 -> ERR1;
+    M2 -> W2 -> ERR2;
+    ERR2 -> W2 [label="repeats identically", style=dashed];
+  }
+
+  subgraph cluster_after {
+    label="AFTER — tools.tool_search: off"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    M3 [label="Model wants to call\nany tool, core or deferred", color="#34d399"];
+    D3 [label="Tool appears directly in the\nmodel-facing list", color="#34d399"];
+    OK [label="Called directly — no bridge,\nno batching shape to get wrong", color="#34d399", fillcolor="#0f2a1a"];
+    M3 -> D3 -> OK;
+  }
+
+  ERR1 -> M3 [label="config.yaml:\ntools.tool_search.enabled: off", color="#22d3ee", fontcolor="#22d3ee", style=dashed, penwidth=2];
+}

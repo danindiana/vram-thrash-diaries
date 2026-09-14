@@ -1,0 +1,25 @@
+digraph Catch22s {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="07 — Catch-22s";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.5;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  P1 [label="Problem: MAX_LOADED_MODELS=2\nvs 3-role workload → thrashing", color="#f87171"];
+  F1 [label="Fix: cap to 1,\nreserve GPU headroom for desktop", color="#34d399"];
+  P2 [label="New problem: cap=1 means chat model\nand mem0's LLM can NEVER coexist —\nevery memory call evicts the chat model", color="#fb923c", fillcolor="#2a1a0f"];
+  F2 [label="Fix: make mem0's LLM\nCPU-only (0 VRAM)", color="#34d399"];
+  P3 [label="New problem: the cap counts runners\nby COUNT, not device — CPU-only still\nevicts / gets evicted under cap=1", color="#fb923c", fillcolor="#2a1a0f"];
+  F3 [label="Fix: raise cap to 3\n(cheap now — 2 of 3 roles small/CPU)", color="#34d399"];
+  R  [label="Resolved: chat + embedder + CPU\nextractor coexist, 0 eviction", color="#22d3ee", fillcolor="#0b1a2a"];
+
+  P1 -> F1 -> P2 -> F2 -> P3 -> F3 -> R;
+}

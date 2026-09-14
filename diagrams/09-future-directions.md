@@ -1,5 +1,9 @@
 # 09 — Future Directions
 
+<img src="graphviz/png/09-future-directions.png" alt="09 — Future Directions (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/09-future-directions.svg) · [PNG](graphviz/png/09-future-directions.png) · [DOT source](graphviz/09-future-directions.dot)*
+
 What's deliberately left open at the end of this session.
 
 ```mermaid

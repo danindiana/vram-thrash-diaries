@@ -1,0 +1,40 @@
+digraph FutureDirections {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="09 — Future Directions";
+  rankdir=LR;
+  pad=0.4;
+  nodesep=0.3;
+  ranksep=0.7;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.15];
+  edge [color="#a78bfa", fontname="Courier New", penwidth=1.4, arrowsize=0.7];
+
+  ROOT [label="Open\nItems", shape=ellipse, color="#facc15", fillcolor="#241541", fontsize=14];
+
+  CM [label="Chat model choice", color="#22d3ee"];
+  QW [label="Qwen Code", color="#22d3ee"];
+  BL [label="Billing", color="#22d3ee"];
+  RS [label="Session restart", color="#22d3ee"];
+  CL [label="Cleanup", color="#22d3ee"];
+
+  ROOT -> CM; ROOT -> QW; ROOT -> BL; ROOT -> RS; ROOT -> CL;
+
+  CM -> CM1 [color="#34d399"]; CM1 [label="hermes3:8b-q8_0 —\ntool-format-matched, aging", color="#34d399"];
+  CM -> CM2 [color="#34d399"]; CM2 [label="Ornith-1.5-9B — strong benchmarks,\ndocumented reliability gap", color="#34d399"];
+  CM -> CM3 [color="#34d399"]; CM3 [label="Not yet decided — current default\nis a bugfix-of-convenience tag", color="#34d399"];
+
+  QW -> QW1 [color="#f472b6"]; QW1 [label="Installed, wired to local Ollama,\nconfirmed working", color="#f472b6"];
+  QW -> QW2 [color="#f472b6"]; QW2 [label="Not yet compared head-to-head\nagainst Hermes Agent", color="#f472b6"];
+  QW -> QW3 [color="#f472b6"]; QW3 [label="qwen3-coder:30b-a3b — 46GB,\npartial CPU offload", color="#f472b6"];
+
+  BL -> BL1 [color="#f87171"]; BL1 [label="OpenRouter/Nous marked unhealthy —\n'payment/credit error', account-level", color="#f87171"];
+
+  RS -> RS1 [color="#facc15"]; RS1 [label="tool_search off, mem0-extractor-cpu,\nMAX_LOADED_MODELS=3 not yet live\non any running Hermes session", color="#facc15"];
+
+  CL -> CL1 [color="#38bdf8"]; CL1 [label="ollama-gpu1.service disabled,\nunit file kept (not deleted)", color="#38bdf8"];
+  CL -> CL2 [color="#38bdf8"]; CL2 [label="Old systemd drop-ins kept as\n.disabled/.superseded backups", color="#38bdf8"];
+}

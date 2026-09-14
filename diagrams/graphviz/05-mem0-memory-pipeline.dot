@@ -1,0 +1,27 @@
+digraph Mem0Pipeline {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="05 — mem0 Memory Pipeline";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.5;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  T  [label="Chat turn completes\n(or session/turn boundary)", color="#22d3ee"];
+  M0 [label="mem0 plugin fires", color="#22d3ee"];
+  EX [label="Extraction LLM call\nmem0-extractor-cpu\n(qwen3:4b, num_gpu=0, num_ctx=16384)", color="#34d399", fillcolor="#0f2a1a"];
+  EMB [label="Embedder call\nnomic-embed-text (GPU, ~400MB)", color="#38bdf8", fillcolor="#0b1a2a"];
+  VEC [label="Vector store\nQdrant (embedded, on-disk)\nper-profile path", color="#a78bfa"];
+  SEARCH [label="mem0_search tool\n(core Hermes tool — never deferred)", color="#facc15"];
+
+  T -> M0 -> EX;
+  EX -> EMB [label="summarized fact(s)"];
+  EMB -> VEC -> SEARCH;
+  SEARCH -> T [label="available next turn", style=dashed, color="#a78bfa", fontcolor="#a78bfa"];
+}

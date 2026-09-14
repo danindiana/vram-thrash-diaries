@@ -1,5 +1,9 @@
 # 07 — Catch-22s
 
+<img src="graphviz/png/07-catch22s.png" alt="07 — Catch-22s (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/07-catch22s.svg) · [PNG](graphviz/png/07-catch22s.png) · [DOT source](graphviz/07-catch22s.dot)*
+
 Every fix in this session created a new, narrower problem before things
 actually settled. This is the loop.
 

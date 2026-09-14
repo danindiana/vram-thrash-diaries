@@ -1,5 +1,9 @@
 # 03 — Lessons Learned
 
+<img src="graphviz/png/03-lessons-learned.png" alt="03 — Lessons Learned (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/03-lessons-learned.svg) · [PNG](graphviz/png/03-lessons-learned.png) · [DOT source](graphviz/03-lessons-learned.dot)*
+
 The generalizable takeaways — useful even if you never touch Ollama or
 Hermes Agent specifically.
 

@@ -1,0 +1,35 @@
+digraph BeforeAfter {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="04 — GPU Scheduling: Before vs. After";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  subgraph cluster_before {
+    label="BEFORE — thrashing"; fontcolor="#f87171"; color="#f87171"; style="rounded"; bgcolor="#1e0b16";
+    B1 [label="MAX_LOADED_MODELS=2\n(2 overlapping drop-ins)", color="#f87171"];
+    B2 [label="Workload needs 3 roles:\nchat + mem0-LLM + embedder", color="#f87171"];
+    B3 [label="313 nemotron evictions / 3h\n~every 30-90 seconds", color="#f87171", fillcolor="#2a0f1a"];
+    B4 [label="NUM_PARALLEL=2\n45GB, 48%/52% CPU/GPU", color="#f87171"];
+    B1 -> B2 -> B3;
+  }
+
+  subgraph cluster_after {
+    label="AFTER — stable"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    A1 [label="Consolidated config\nMAX_LOADED_MODELS=3, GPU_OVERHEAD=1GiB", color="#34d399"];
+    A2 [label="mem0 extraction moved to\nCPU-only model (0 VRAM)", color="#34d399"];
+    A3 [label="chat+embedder+extractor\nresident, 0 evictions", color="#34d399", fillcolor="#0f2a1a"];
+    A4 [label="NUM_PARALLEL=1\n26GB, 5%/95% CPU/GPU", color="#34d399"];
+    A1 -> A2 -> A3;
+  }
+
+  B3 -> A1 [label="the fix chain", color="#22d3ee", fontcolor="#22d3ee", style=dashed, penwidth=2];
+}

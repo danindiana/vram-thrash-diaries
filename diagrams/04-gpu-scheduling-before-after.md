@@ -1,5 +1,9 @@
 # 04 — GPU Scheduling: Before vs. After
 
+<img src="graphviz/png/04-gpu-scheduling-before-after.png" alt="04 — GPU Scheduling: Before vs. After (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/04-gpu-scheduling-before-after.svg) · [PNG](graphviz/png/04-gpu-scheduling-before-after.png) · [DOT source](graphviz/04-gpu-scheduling-before-after.dot)*
+
 Two separate measured comparisons from this session, shown side by side.
 
 ```mermaid

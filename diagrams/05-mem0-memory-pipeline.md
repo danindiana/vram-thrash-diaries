@@ -1,5 +1,9 @@
 # 05 — mem0 Memory Pipeline
 
+<img src="graphviz/png/05-mem0-memory-pipeline.png" alt="05 — mem0 Memory Pipeline (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/05-mem0-memory-pipeline.svg) · [PNG](graphviz/png/05-mem0-memory-pipeline.png) · [DOT source](graphviz/05-mem0-memory-pipeline.dot)*
+
 The path a single memory-relevant turn takes, end to end, after the fix.
 Before the fix, the "Extraction LLM" box below was `nemotron-3.5-lightning:1m`
 (33GB, GPU) — which is what caused all the eviction thrashing documented in

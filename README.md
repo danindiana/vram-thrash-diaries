@@ -5,7 +5,8 @@
   <img alt="Platform" src="https://img.shields.io/badge/platform-Linux-informational">
   <img alt="Local-first AI" src="https://img.shields.io/badge/local--first-AI-8b5cf6">
   <img alt="Made with Ollama" src="https://img.shields.io/badge/made%20with-Ollama-000000">
-  <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-10-orange">
+  <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-10%20%C3%97%202%20formats-orange">
+  <img alt="Rendered with Graphviz" src="https://img.shields.io/badge/rendered%20with-Graphviz-2e8b57">
   <a href="https://github.com/danindiana/vram-thrash-diaries/commits/master"><img alt="Last commit" src="https://img.shields.io/github/last-commit/danindiana/vram-thrash-diaries"></a>
   <a href="https://github.com/danindiana/vram-thrash-diaries/issues"><img alt="Issues" src="https://img.shields.io/github/issues/danindiana/vram-thrash-diaries"></a>
   <img alt="Status" src="https://img.shields.io/badge/status-documented-brightgreen">
@@ -40,6 +41,12 @@ nothing's fast,"* this repo is for you.
 
 ## The story, in diagrams
 
+Every diagram exists in **two forms**: a Mermaid version inline in each
+`diagrams/*.md` file (renders natively in GitHub), and a **dark-background,
+neon-color Graphviz render** (both `.svg` and `.png`) embedded at the top of
+that same file — same content, drawn twice, different renderer. Sources for
+the latter live in [`diagrams/graphviz/`](diagrams/graphviz).
+
 | # | Diagram | What it shows |
 |---|---|---|
 | 01 | [System architecture](diagrams/01-system-architecture.md) | The full stack: Hermes Agent + Qwen Code → Ollama → 2 GPUs + mem0/Qdrant |
@@ -52,6 +59,31 @@ nothing's fast,"* this repo is for you.
 | 08 | [Tool-calling bridge fix](diagrams/08-tool-calling-bridge-fix.md) | Why small models kept mangling Hermes's tool-call batching layer |
 | 09 | [Future directions](diagrams/09-future-directions.md) | What's deliberately left open |
 | 10 | [Model-choice decision tree](diagrams/10-model-choice-decision-tree.md) | Every chat-model swap this session made, and why |
+
+### Gallery (dark/neon Graphviz renders)
+
+<table>
+<tr>
+<td width="50%"><a href="diagrams/01-system-architecture.md"><img src="diagrams/graphviz/png/01-system-architecture.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/02-what-we-did-timeline.md"><img src="diagrams/graphviz/png/02-what-we-did-timeline.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/03-lessons-learned.md"><img src="diagrams/graphviz/png/03-lessons-learned.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/04-gpu-scheduling-before-after.md"><img src="diagrams/graphviz/png/04-gpu-scheduling-before-after.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/05-mem0-memory-pipeline.md"><img src="diagrams/graphviz/png/05-mem0-memory-pipeline.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/06-howto-reproduce.md"><img src="diagrams/graphviz/png/06-howto-reproduce.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/07-catch22s.md"><img src="diagrams/graphviz/png/07-catch22s.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/08-tool-calling-bridge-fix.md"><img src="diagrams/graphviz/png/08-tool-calling-bridge-fix.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/09-future-directions.md"><img src="diagrams/graphviz/png/09-future-directions.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/10-model-choice-decision-tree.md"><img src="diagrams/graphviz/png/10-model-choice-decision-tree.png" width="100%"></a></td>
+</tr>
+</table>
 
 ## The measured wins
 

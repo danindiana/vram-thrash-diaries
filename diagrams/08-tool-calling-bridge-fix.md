@@ -1,5 +1,9 @@
 # 08 — Tool-Calling Bridge Fix
 
+<img src="graphviz/png/08-tool-calling-bridge-fix.png" alt="08 — Tool-Calling Bridge Fix (dark/neon)" width="100%">
+
+*Dark/neon render ([Graphviz](https://graphviz.org)): [SVG](graphviz/svg/08-tool-calling-bridge-fix.svg) · [PNG](graphviz/png/08-tool-calling-bridge-fix.png) · [DOT source](graphviz/08-tool-calling-bridge-fix.dot)*
+
 Hermes Agent defers non-core tools behind a batching "bridge" tool by
 default. Small local models kept malforming it — here's the shape of the
 problem and the fix.
