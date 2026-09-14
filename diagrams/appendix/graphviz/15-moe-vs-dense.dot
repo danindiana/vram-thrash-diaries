@@ -1,0 +1,35 @@
+digraph MoeVsDense {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="15 — MoE vs. Dense Model Tradeoffs";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.5;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  subgraph cluster_dense {
+    label="Dense (e.g. qwen3:4b-thinking)"; fontcolor="#22d3ee"; color="#22d3ee"; style="rounded"; bgcolor="#0b1a2a";
+    D1 [label="Every parameter active\nfor every token", color="#22d3ee"];
+    D2 [label="Smaller total size,\npredictable VRAM/compute", color="#22d3ee"];
+    D3 [label="Simpler to place\non a fixed GPU budget", color="#22d3ee"];
+  }
+
+  subgraph cluster_moe {
+    label="MoE (e.g. qwen3-coder:30b-a3b)"; fontcolor="#f472b6"; color="#f472b6"; style="rounded"; bgcolor="#1e0b16";
+    M1 [label="Only a few 'expert' sub-networks\nactivate per token", color="#f472b6"];
+    M2 [label="Large TOTAL param count (30B)\nbut cheaper compute per token", color="#f472b6"];
+    M3 [label="Full weights still must be\nresident (or offloaded) —\nVRAM cost ≈ total size, not active size", color="#f472b6", fillcolor="#2a0f1a"];
+  }
+
+  D1 -> D2 -> D3;
+  M1 -> M2 -> M3;
+
+  M3 -> OBS [color="#facc15", style=dashed];
+  OBS [label="Observed this session: 30b-a3b\nreported 46GB, 45%/55% CPU/GPU —\nMoE's compute-per-token win doesn't\nshrink the VRAM footprint", color="#facc15", fillcolor="#241541"];
+}

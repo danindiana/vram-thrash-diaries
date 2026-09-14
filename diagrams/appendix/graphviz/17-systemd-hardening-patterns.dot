@@ -1,0 +1,33 @@
+digraph SystemdHardening {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="17 — systemd Drop-in Hardening Patterns";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  subgraph cluster_bad {
+    label="Anti-pattern (found this session)"; fontcolor="#f87171"; color="#f87171"; style="rounded"; bgcolor="#1e0b16";
+    B1 [label="local-only.conf\nsets MAX_LOADED_MODELS=2", color="#f87171"];
+    B2 [label="override.conf\nALSO sets MAX_LOADED_MODELS=2\n(+ different NUM_PARALLEL)", color="#f87171"];
+    B3 [label="Which wins? Resolved silently\nby alphabetical file order —\nnot documented, easy to forget", color="#f87171", fillcolor="#2a0f1a"];
+    B1 -> B3; B2 -> B3;
+  }
+
+  subgraph cluster_good {
+    label="Pattern applied"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    G1 [label="One override.conf,\nall variables in one place", color="#34d399"];
+    G2 [label="Old files renamed\n.disabled-<timestamp>, not deleted\n(reversible)", color="#34d399"];
+    G3 [label="daemon-reload + restart,\nthen verify effective env via\n'systemctl show -p Environment'", color="#34d399", fillcolor="#0f2a1a"];
+    G1 -> G2 -> G3;
+  }
+
+  B3 -> G1 [color="#22d3ee", fontcolor="#22d3ee", style=dashed, penwidth=2, label="consolidate"];
+}

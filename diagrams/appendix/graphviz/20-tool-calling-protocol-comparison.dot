@@ -1,0 +1,42 @@
+digraph ToolCallProtocols {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="20 — Tool-Calling Protocol Comparison";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.45;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=10, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#a78bfa", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  subgraph cluster_openai {
+    label="OpenAI function-calling"; fontcolor="#22d3ee"; color="#22d3ee"; style="rounded"; bgcolor="#0b1a2a";
+    O1 [label="tools: [{type:function,\nfunction:{name,parameters}}]", color="#22d3ee"];
+    O2 [label="response.tool_calls[]\n{id, function:{name,arguments}}", color="#22d3ee"];
+  }
+
+  subgraph cluster_hermes {
+    label="Hermes ChatML tool_call"; fontcolor="#f472b6"; color="#f472b6"; style="rounded"; bgcolor="#1e0b16";
+    H1 [label="<tools> JSON schema list\nembedded in system prompt", color="#f472b6"];
+    H2 [label="<tool_call>{name, arguments}\n</tool_call> inline in text", color="#f472b6"];
+    H3 [label="Deferred tools: batched via\ntool_call{calls:[{name,args}]}\n— the exact shape small models\nmalformed this session", color="#f472b6", fillcolor="#2a0f1a"];
+  }
+
+  subgraph cluster_anthropic {
+    label="Anthropic tool-use"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    A1 [label="tools: [{name, input_schema}]", color="#34d399"];
+    A2 [label="content block type=tool_use\n{id, name, input}", color="#34d399"];
+    A3 [label="Result sent back as\ntype=tool_result content block", color="#34d399"];
+  }
+
+  O1 -> O2;
+  H1 -> H2 -> H3;
+  A1 -> A2 -> A3;
+
+  NOTE [label="Same underlying idea everywhere:\nstructured call out, structured\nresult back in. Differences are\nsyntax + how batching/deferral works —\nand that's exactly where small\nmodels break first.", shape=note, color="#facc15", fillcolor="#241541", fontsize=10];
+  O2 -> NOTE [style=dashed]; H3 -> NOTE [style=dashed]; A3 -> NOTE [style=dashed];
+}

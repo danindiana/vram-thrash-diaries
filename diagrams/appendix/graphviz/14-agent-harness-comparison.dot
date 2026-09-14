@@ -1,0 +1,42 @@
+digraph HarnessComparison {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="14 — Local Agent Harness Comparison";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.5;
+  ranksep=0.5;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#a78bfa", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  API [label="OpenAI-compatible /v1\n(Ollama exposes this)", shape=ellipse, color="#facc15", fillcolor="#241541"];
+
+  subgraph cluster_hermes {
+    label="Hermes Agent"; fontcolor="#22d3ee"; color="#22d3ee"; style="rounded"; bgcolor="#0b1a2a";
+    H1 [label="General-purpose:\nchat, memory (mem0), skills,\nkanban, plugins", color="#22d3ee"];
+    H2 [label="tool_call batching bridge\n(deferred/MCP tools)", color="#22d3ee"];
+    H3 [label="Persistent memory\nbuilt in (mem0/holographic)", color="#22d3ee"];
+  }
+
+  subgraph cluster_qwen {
+    label="Qwen Code"; fontcolor="#f472b6"; color="#f472b6"; style="rounded"; bgcolor="#1e0b16";
+    Q1 [label="Coding-focused:\nsubagents, MCP, auto-memory", color="#f472b6"];
+    Q2 [label="Direct tool calls,\nno batching bridge observed", color="#f472b6"];
+    Q3 [label="Config via ~/.qwen/.env\nor settings.json", color="#f472b6"];
+  }
+
+  subgraph cluster_generic {
+    label="The general shape\n(any harness)"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    G1 [label="Tool loop: model emits\nstructured call → harness\nexecutes → result fed back", color="#34d399"];
+  }
+
+  API -> H1; API -> Q1;
+  H1 -> H2 -> H3;
+  Q1 -> Q2 -> Q3;
+  H3 -> G1 [style=dashed];
+  Q3 -> G1 [style=dashed];
+}

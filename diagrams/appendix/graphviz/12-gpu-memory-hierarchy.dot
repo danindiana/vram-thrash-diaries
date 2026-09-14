@@ -1,0 +1,30 @@
+digraph MemoryHierarchy {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="12 — GPU Memory Hierarchy";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.5;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  L1 [label="GPU VRAM (on-die/on-package)\nfastest, smallest\n12-16GB this box", color="#22d3ee"];
+  L2 [label="PCIe bus\nGPU ↔ CPU transfer\nGen4 x16 ≈ 32GB/s", color="#facc15"];
+  L3 [label="System RAM\nslower, huge\n176GB free this box", color="#a78bfa"];
+  L4 [label="NVMe / disk\nmodel weights at rest\nmmap'd on load", color="#f87171"];
+
+  L1 -> L2 [label="offloaded layers\ncross this boundary\n(the CPU/GPU % split)"];
+  L2 -> L3;
+  L3 -> L4 [label="cold load"];
+
+  subgraph cluster_impl {
+    label="What this meant in practice"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    I1 [label="'48%/52% CPU/GPU split' =\nhalf the layers crossed L1→L2\nevery forward pass — slow", color="#34d399"];
+    I2 [label="Fixing NUM_PARALLEL cut KV-cache\nsize, so more fit in L1 alone →\n95% GPU, minimal L2 crossing", color="#34d399"];
+  }
+}

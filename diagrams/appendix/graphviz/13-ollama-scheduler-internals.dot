@@ -1,0 +1,33 @@
+digraph SchedulerInternals {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="13 — Ollama's Layer-Fitting Scheduler";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  A [label="Model load requested", color="#22d3ee"];
+  B [label="common_params_fit_impl:\ntest-allocate memory per device", color="#22d3ee"];
+  C [label="Fill dense layers back-to-front,\none device at a time", color="#22d3ee"];
+  D [label="Per candidate layer count:\nrun a test allocation,\ncheck it fits free VRAM", color="#facc15"];
+  Eq [label="Layer fits\non this GPU?", shape=diamond, color="#facc15", fillcolor="#241541"];
+  F [label="Assign layer to GPU,\ntry next layer", color="#34d399"];
+  G [label="Stop — remaining layers\nfall back to CPU_Mapped", color="#f87171"];
+  H [label="Repeat across all GPUs\n(CUDA0, CUDA1, ...)", color="#22d3ee"];
+  I [label="Load tensors per the\nfinal per-device layer plan", color="#34d399", fillcolor="#0f2a1a"];
+
+  A -> B -> C -> D -> Eq;
+  Eq -> F [label="yes"];
+  Eq -> G [label="no"];
+  F -> D [label="next layer"];
+  F -> H;
+  G -> H;
+  H -> I;
+}

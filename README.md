@@ -5,7 +5,7 @@
   <img alt="Platform" src="https://img.shields.io/badge/platform-Linux-informational">
   <img alt="Local-first AI" src="https://img.shields.io/badge/local--first-AI-8b5cf6">
   <img alt="Made with Ollama" src="https://img.shields.io/badge/made%20with-Ollama-000000">
-  <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-10%20%C3%97%202%20formats-orange">
+  <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-20%20%C3%97%202%20formats-orange">
   <img alt="Rendered with Graphviz" src="https://img.shields.io/badge/rendered%20with-Graphviz-2e8b57">
   <a href="https://github.com/danindiana/vram-thrash-diaries/commits/master"><img alt="Last commit" src="https://img.shields.io/github/last-commit/danindiana/vram-thrash-diaries"></a>
   <a href="https://github.com/danindiana/vram-thrash-diaries/issues"><img alt="Issues" src="https://img.shields.io/github/issues/danindiana/vram-thrash-diaries"></a>
@@ -82,6 +82,51 @@ the latter live in [`diagrams/graphviz/`](diagrams/graphviz).
 <tr>
 <td width="50%"><a href="diagrams/09-future-directions.md"><img src="diagrams/graphviz/png/09-future-directions.png" width="100%"></a></td>
 <td width="50%"><a href="diagrams/10-model-choice-decision-tree.md"><img src="diagrams/graphviz/png/10-model-choice-decision-tree.png" width="100%"></a></td>
+</tr>
+</table>
+
+## Appendix: adjacent topics
+
+The 10 diagrams above document *this specific session*. These 10 are
+general local-LLM-infra concepts that session touched on or implied but
+never explained on their own terms — useful even if you never hit the
+exact bugs above.
+
+| # | Diagram | What it shows |
+|---|---|---|
+| 11 | [Quantization tradeoffs](diagrams/appendix/11-quantization-tradeoffs.md) | FP16 → Q8 → Q4 → lower: what each step actually costs |
+| 12 | [GPU memory hierarchy](diagrams/appendix/12-gpu-memory-hierarchy.md) | VRAM / PCIe / system RAM / disk, and why the CPU/GPU split happens |
+| 13 | [Ollama scheduler internals](diagrams/appendix/13-ollama-scheduler-internals.md) | The actual per-layer fit-testing loop behind `common_params_fit_impl` |
+| 14 | [Agent harness comparison](diagrams/appendix/14-agent-harness-comparison.md) | Hermes Agent vs. Qwen Code, architecturally |
+| 15 | [MoE vs. dense](diagrams/appendix/15-moe-vs-dense.md) | Why a 30B MoE model still needs 30B-worth of VRAM |
+| 16 | [mem0 architecture](diagrams/appendix/16-mem0-architecture.md) | OSS (self-hosted) vs. platform (hosted) mode, and why OSS fit here |
+| 17 | [systemd hardening patterns](diagrams/appendix/17-systemd-hardening-patterns.md) | The overlapping-drop-ins anti-pattern, generalized |
+| 18 | [LAN exposure security](diagrams/appendix/18-lan-exposure-security.md) | What `OLLAMA_HOST=0.0.0.0` actually exposes, and to whom |
+| 19 | [Context window / KV-cache math](diagrams/appendix/19-context-window-kv-cache-math.md) | The formula behind the 45GB→26GB win |
+| 20 | [Tool-calling protocol comparison](diagrams/appendix/20-tool-calling-protocol-comparison.md) | OpenAI / Hermes ChatML / Anthropic tool-use, side by side |
+
+### Appendix gallery
+
+<table>
+<tr>
+<td width="50%"><a href="diagrams/appendix/11-quantization-tradeoffs.md"><img src="diagrams/appendix/graphviz/png/11-quantization-tradeoffs.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/12-gpu-memory-hierarchy.md"><img src="diagrams/appendix/graphviz/png/12-gpu-memory-hierarchy.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/appendix/13-ollama-scheduler-internals.md"><img src="diagrams/appendix/graphviz/png/13-ollama-scheduler-internals.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/14-agent-harness-comparison.md"><img src="diagrams/appendix/graphviz/png/14-agent-harness-comparison.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/appendix/15-moe-vs-dense.md"><img src="diagrams/appendix/graphviz/png/15-moe-vs-dense.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/16-mem0-architecture.md"><img src="diagrams/appendix/graphviz/png/16-mem0-architecture.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/appendix/17-systemd-hardening-patterns.md"><img src="diagrams/appendix/graphviz/png/17-systemd-hardening-patterns.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/18-lan-exposure-security.md"><img src="diagrams/appendix/graphviz/png/18-lan-exposure-security.png" width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="diagrams/appendix/19-context-window-kv-cache-math.md"><img src="diagrams/appendix/graphviz/png/19-context-window-kv-cache-math.png" width="100%"></a></td>
+<td width="50%"><a href="diagrams/appendix/20-tool-calling-protocol-comparison.md"><img src="diagrams/appendix/graphviz/png/20-tool-calling-protocol-comparison.png" width="100%"></a></td>
 </tr>
 </table>
 

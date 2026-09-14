@@ -1,0 +1,32 @@
+digraph KvCacheMath {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="19 — Context Window / KV-Cache Math";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  F [label="KV-cache size ≈\nnum_ctx × num_parallel ×\nlayers × kv_heads × head_dim × 2 (K+V) × dtype_bytes", color="#facc15", fillcolor="#241541"];
+
+  A [label="num_ctx: max tokens\nper conversation slot", color="#22d3ee"];
+  B [label="num_parallel: how many\nslots reserved at once\n(concurrent requests)", color="#22d3ee"];
+  C [label="Model architecture:\nlayers × kv_heads × head_dim\n(fixed per model)", color="#22d3ee"];
+
+  A -> F; B -> F; C -> F;
+
+  subgraph cluster_measured {
+    label="Measured this session\n(qwen3:4b-thinking)"; fontcolor="#34d399"; color="#34d399"; style="rounded"; bgcolor="#0b1e14";
+    M1 [label="num_parallel=2, num_ctx=131072:\n45GB reported, 48%/52% CPU/GPU", color="#34d399"];
+    M2 [label="num_parallel=1, same num_ctx:\n26GB reported, 5%/95% CPU/GPU", color="#34d399", fillcolor="#0f2a1a"];
+    M1 -> M2 [label="halved parallel slots\n≈ halved KV-cache"];
+  }
+
+  F -> M1 [style=dashed, color="#a78bfa"];
+}

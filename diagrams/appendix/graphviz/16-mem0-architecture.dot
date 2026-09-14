@@ -1,0 +1,35 @@
+digraph Mem0Architecture {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="16 — mem0 Architecture: OSS vs. Platform Mode";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.45;
+  ranksep=0.5;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#a78bfa", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  subgraph cluster_oss {
+    label="OSS mode (used this session)"; fontcolor="#22d3ee"; color="#22d3ee"; style="rounded"; bgcolor="#0b1a2a";
+    O1 [label="Self-hosted LLM role\n(mem0-extractor-cpu)", color="#22d3ee"];
+    O2 [label="Self-hosted embedder\n(nomic-embed-text)", color="#22d3ee"];
+    O3 [label="Local vector store\n(Qdrant, embedded, on-disk)", color="#22d3ee"];
+    O4 [label="No external API calls,\nno account required", color="#22d3ee", fillcolor="#0f2a1a"];
+    O1 -> O3; O2 -> O3; O3 -> O4;
+  }
+
+  subgraph cluster_platform {
+    label="Platform mode (not used here)"; fontcolor="#f472b6"; color="#f472b6"; style="rounded"; bgcolor="#1e0b16";
+    P1 [label="mem0 hosted API\n(api.mem0.ai)", color="#f472b6"];
+    P2 [label="Managed vector store\n+ managed extraction pipeline", color="#f472b6"];
+    P3 [label="Requires API key,\ndata leaves the box", color="#f472b6", fillcolor="#2a0f1a"];
+    P1 -> P2 -> P3;
+  }
+
+  CH [label="hermes.config: memory.provider = mem0", shape=ellipse, color="#facc15", fillcolor="#241541"];
+  CH -> O1; CH -> P1 [style=dashed, label="not chosen"];
+}

@@ -1,0 +1,30 @@
+digraph LanExposure {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="18 — LAN Exposure Security for Local LLM Daemons";
+  rankdir=TB;
+  pad=0.4;
+  nodesep=0.4;
+  ranksep=0.45;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#f472b6", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  A [label="OLLAMA_HOST=0.0.0.0:11434\n(binds all interfaces, not just localhost)", color="#f87171"];
+  B [label="Why: lets other devices on\nthe LAN reach it (phone, laptop)", color="#22d3ee"];
+  Cq [label="Is the LAN\ntrusted / firewalled\nfrom the internet?", shape=diamond, color="#facc15", fillcolor="#241541"];
+  D [label="Router NAT + no port-forward\n= not internet-reachable\n(typical home LAN)", color="#34d399"];
+  E [label="Port-forwarded or DMZ'd\n= genuinely exposed —\nno auth on Ollama's API by default", color="#f87171", fillcolor="#2a0f1a"];
+  F [label="Mitigations if exposed:\nreverse proxy + auth,\nufw rule scoped to LAN subnet,\nor bind 127.0.0.1 + SSH tunnel", color="#34d399"];
+  G [label="Reminder from this session:\na SECOND daemon (ollama-gpu1,\nport 11435) sat exposed the\nsame way, unnoticed for 6+ hours", color="#38bdf8", fillcolor="#0b1a2a"];
+
+  A -> B -> Cq;
+  Cq -> D [label="yes"];
+  Cq -> E [label="no / unsure"];
+  E -> F;
+  D -> G [style=dashed];
+  E -> G [style=dashed];
+}

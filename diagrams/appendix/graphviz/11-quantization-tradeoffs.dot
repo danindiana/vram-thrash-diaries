@@ -1,0 +1,30 @@
+digraph Quantization {
+  bgcolor="#0d0620";
+  fontname="Courier New";
+  fontcolor="#f5f3ff";
+  labelloc="t";
+  fontsize=20;
+  label="11 — Quantization Formats & Tradeoffs";
+  rankdir=LR;
+  pad=0.4;
+  nodesep=0.35;
+  ranksep=0.6;
+
+  node [style=filled, fillcolor="#1a1033", fontname="Courier New", fontsize=11, fontcolor="#f5f3ff", penwidth=2, shape=box, margin=0.16];
+  edge [color="#a78bfa", fontname="Courier New", fontsize=10, fontcolor="#facc15", penwidth=1.6, arrowsize=0.75];
+
+  FP16 [label="FP16 / BF16\n~2 bytes/param\nfull reference quality", color="#f87171"];
+  Q8   [label="Q8_0\n~1 byte/param\nnear-lossless, ~2x smaller", color="#facc15"];
+  Q6   [label="Q6_K\n~0.75 byte/param\nvery close to Q8", color="#facc15"];
+  Q5   [label="Q5_K_M\n~0.65 byte/param\ngood balance", color="#34d399"];
+  Q4   [label="Q4_K_M\n~0.55 byte/param\nnoticeable but usable loss", color="#34d399"];
+  IQ4  [label="IQ4_XS / lower\n~0.5 byte/param\naggressive, quality risk rises", color="#38bdf8"];
+
+  FP16 -> Q8 -> Q6 -> Q5 -> Q4 -> IQ4 [label="smaller / faster,\nmore quality risk"];
+
+  subgraph cluster_note {
+    label="This session used"; fontcolor="#22d3ee"; color="#22d3ee"; style="rounded"; bgcolor="#160b2e";
+    N1 [label="Q8_0 for most chat models\n(dler-r1-7b, qwen3:4b-thinking)", color="#22d3ee"];
+    N2 [label="Q5_K_M for one hermes3:8b\nvariant (failed on 'thinking' param —\nnot a quantization issue)", color="#22d3ee"];
+  }
+}
