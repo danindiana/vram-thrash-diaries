@@ -1,0 +1,15 @@
+* text=auto
+
+*.dot linguist-language=DOT
+*.dot text eol=lf
+*.md text eol=lf
+
+diagrams/graphviz/png/*.png linguist-generated=true -diff
+diagrams/graphviz/svg/*.svg linguist-generated=true -diff
+diagrams/appendix/graphviz/png/*.png linguist-generated=true -diff
+diagrams/appendix/graphviz/svg/*.svg linguist-generated=true -diff
+hermes-goal-judge/*/diagrams/*.png linguist-generated=true -diff
+hermes-goal-judge/*/diagrams/*.svg linguist-generated=true -diff
+
+*.png binary
+*.svg binary

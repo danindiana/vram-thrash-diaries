@@ -9,6 +9,8 @@
   <img alt="Made with Ollama" src="https://img.shields.io/badge/made%20with-Ollama-000000">
   <img alt="Diagrams" src="https://img.shields.io/badge/diagrams-50%20%C3%97%202%20formats-orange">
   <img alt="Rendered with Graphviz" src="https://img.shields.io/badge/rendered%20with-Graphviz-2e8b57">
+  <a href="https://github.com/danindiana/vram-thrash-diaries/actions/workflows/verify-diagrams.yml"><img alt="Verify diagrams" src="https://github.com/danindiana/vram-thrash-diaries/actions/workflows/verify-diagrams.yml/badge.svg"></a>
+  <a href="CITATION.cff"><img alt="Citable" src="https://img.shields.io/badge/citable-CITATION.cff-informational"></a>
   <a href="https://github.com/danindiana/vram-thrash-diaries/commits/master"><img alt="Last commit" src="https://img.shields.io/github/last-commit/danindiana/vram-thrash-diaries"></a>
   <a href="https://github.com/danindiana/vram-thrash-diaries/issues"><img alt="Issues" src="https://img.shields.io/github/issues/danindiana/vram-thrash-diaries"></a>
   <a href="https://github.com/danindiana/vram-thrash-diaries/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/danindiana/vram-thrash-diaries"></a>

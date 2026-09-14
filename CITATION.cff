@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If this repo helped you diagnose a local-LLM VRAM/scheduling problem, feel free to cite it."
+title: "vram-thrash-diaries"
+abstract: >-
+  A field journal from a real debugging session on a dual-GPU local-LLM box
+  running Hermes Agent on Ollama, diagnosing and fixing model-loading
+  eviction thrashing, with 50 diagrams (Mermaid + dark/neon Graphviz) and a
+  companion writeup on a separate Hermes Agent /goal outage.
+authors:
+  - name: "danindiana"
+repository-code: "https://github.com/danindiana/vram-thrash-diaries"
+url: "https://github.com/danindiana/vram-thrash-diaries"
+license: MIT
+date-released: "2026-09-15"
+keywords:
+  - ollama
+  - llm
+  - gpu
+  - vram
+  - local-llm
+  - hermes-agent
+  - debugging

@@ -1,0 +1,64 @@
+name: Verify diagrams
+
+on:
+  push:
+    paths:
+      - "diagrams/graphviz/*.dot"
+      - "diagrams/appendix/graphviz/*.dot"
+      - ".github/workflows/verify-diagrams.yml"
+  pull_request:
+    paths:
+      - "diagrams/graphviz/*.dot"
+      - "diagrams/appendix/graphviz/*.dot"
+      - ".github/workflows/verify-diagrams.yml"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Re-render every .dot and diff against the checked-in SVG
+        # SVG is the regression gate: it's text-based Graphviz output, stable across
+        # runs on the same Graphviz version. PNG is NOT byte-diffed here — font
+        # rendering/anti-aliasing can differ across environments, which would make a
+        # pixel-exact PNG check flaky. PNG only gets a render-without-error smoke test.
+        run: |
+          set -euo pipefail
+          fail=0
+          for dot_file in diagrams/graphviz/*.dot diagrams/appendix/graphviz/*.dot; do
+            dir=$(dirname "$dot_file")
+            base=$(basename "$dot_file" .dot)
+            svg_path="$dir/svg/${base}.svg"
+            png_path="$dir/png/${base}.png"
+
+            tmp_svg=$(mktemp)
+            if ! dot -Tsvg "$dot_file" -o "$tmp_svg"; then
+              echo "::error file=$dot_file::failed to render to SVG"
+              fail=1
+              continue
+            fi
+            if [ -f "$svg_path" ]; then
+              if ! diff -q "$tmp_svg" "$svg_path" > /dev/null; then
+                echo "::error file=$svg_path::rendered SVG no longer matches the committed file for $dot_file — re-render and commit the update"
+                fail=1
+              fi
+            else
+              echo "::error file=$dot_file::no committed SVG found at $svg_path"
+              fail=1
+            fi
+            rm -f "$tmp_svg"
+
+            if ! dot -Tpng "$dot_file" -Gdpi=150 -o /dev/null; then
+              echo "::error file=$dot_file::failed to render to PNG (smoke test)"
+              fail=1
+            fi
+            if [ ! -f "$png_path" ]; then
+              echo "::error file=$dot_file::no committed PNG found at $png_path"
+              fail=1
+            fi
+          done
+          exit $fail
